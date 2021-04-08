@@ -42,6 +42,8 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
+	Plug 'moll/vim-bbye' " optional dependency
+	Plug 'aymericbeaumet/vim-symlink'
 	Plug 'scrooloose/nerdtree'
 	Plug 'Xuyuanp/nerdtree-git-plugin'
 	Plug 'jremmen/vim-ripgrep'
@@ -55,6 +57,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 	Plug 'tweekmonster/gofmt.vim'
+	Plug 'git@github.com:airblade/vim-gitgutter.git'
 	Plug 'tpope/vim-fugitive'
 	Plug 'junegunn/gv.vim'
 
@@ -73,8 +76,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 	Plug 'w0rp/ale'
 	Plug '907th/vim-auto-save'
 	Plug 'mattn/emmet-vim'
-
-	Plug 'majutsushi/tagbar'
 
 call plug#end()
 
@@ -138,6 +139,10 @@ let g:ale_sign_column_always = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_fix_on_save = 1
 
+let g:gitgutter_max_signs = 500  " default value (Vim < 8.1.0614, Neovim < 0.4.0)
+let g:gitgutter_max_signs = -1   " default value (otherwise)
+command! Gqf GitGutterQuickFix | copen
+
 map <F2> :echo 'Current time is ' . strftime('%c')<CR>
 
 nnoremap <Leader>u :UndotreeShow<CR>
@@ -157,7 +162,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <Leader>rn <Plug>(coc-rename)
-nmap <F8> :TagbarToggle<CR>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()

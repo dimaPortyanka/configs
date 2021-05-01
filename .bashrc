@@ -128,6 +128,8 @@ PATH="/usr/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
 
+export PATH=$PATH:/home/$USER/go/bin
+
 export PATH
 
 alias python='python3'

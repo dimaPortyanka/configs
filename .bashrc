@@ -131,6 +131,8 @@ PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$PATH:/home/$USER/go/bin
 
 export PATH
+export PATH=/opt/apache-maven-3.8.1/bin:$PATH
+export PATH=/usr/terraform:$PATH
 
 alias python='python3'
 
@@ -167,3 +169,11 @@ alias copy="xclip -selection c"
 alias paste="xclip -selection c -o"
 
 eval "$(thefuck --alias)"
+
+complete -C /usr/bin/terraform terraform
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/bin/google-cloud-sdk/path.bash.inc' ]; then . '/usr/bin/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/bin/google-cloud-sdk/completion.bash.inc' ]; then . '/usr/bin/google-cloud-sdk/completion.bash.inc'; fi

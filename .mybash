@@ -47,7 +47,7 @@ tmux source ~/.tmux.conf
 eval "$(thefuck --alias)"
 
 export FZF_DEFAULT_COMMAND='rg --files -g "!{node_modules,.git,.undodir}"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --preview 'bat --color=always --line-range :500 {}'"
 export FZF_COMPLETION_OPTS='--border --info=inline'
 
 function delete-branches() {

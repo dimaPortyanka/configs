@@ -36,6 +36,7 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] &&
 fi
 
 export PATH="~/bin:$PATH"
+export PATH=".poetry/bin:$PATH"
 
 # ignore node_modules
 export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{node_modules/*,.git/*}"'

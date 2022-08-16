@@ -6,6 +6,7 @@ alias vim="nvim"
 alias reload="source ~/.bashrc"
 alias ds="docker-compose ps"
 alias remove_branches="git branch | xargs git branch -D"
+alias copy="xclip -sel clip"
 
 #enter bash of the docker container
 enter_container() {

@@ -44,7 +44,7 @@ alias node_docker="docker run -v $(pwd):/root -it node /bin/bash"
 
 alias test="npm run test || echo 'cant run tests'"
 alias diff="git diff"
-
+alias remove_branches="git branch | xargs git branch -D"
 function commit {
   if [[ $# -eq 0 ]]; then
     return
@@ -84,5 +84,11 @@ function send {
   commit $1
   git push origin HEAD
 }
+
+# capture the output of a command so it can be retrieved with ret
+cap () { tee /tmp/capture.out; }
+
+# return the output of the most recent command that was captured by cap
+ret () { cat /tmp/capture.out; }
 
 alias reload="source ~/.zshrc"

@@ -3,29 +3,26 @@ vim.o.background = "dark"
 vim.o.shell = "/bin/zsh"
 
 local config = {
-
         -- Configure AstroNvim updates
         updater = {
-                remote = "origin", -- remote to use
-                channel = "stable", -- "stable" or "nightly"
-                version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-                branch = "main", -- branch name (NIGHTLY ONLY)
-                commit = nil, -- commit hash (NIGHTLY ONLY)
-                pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
-                skip_prompts = false, -- skip prompts about breaking changes
+                remote = "origin",     -- remote to use
+                channel = "stable",    -- "stable" or "nightly"
+                version = "latest",    -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+                branch = "main",       -- branch name (NIGHTLY ONLY)
+                commit = nil,          -- commit hash (NIGHTLY ONLY)
+                pin_plugins = nil,     -- nil, true, false (nil will pin plugins on stable only)
+                skip_prompts = false,  -- skip prompts about breaking changes
                 show_changelog = true, -- show the changelog after performing an update
-                auto_reload = true, -- automatically reload and sync packer after a successful update
-                auto_quit = true, -- automatically quit the current session after a successful update
+                auto_reload = true,    -- automatically reload and sync packer after a successful update
+                auto_quit = true,      -- automatically quit the current session after a successful update
                 -- remotes = { -- easily add new remotes to track
                 --   "remote_name" = "https://remote_url.come/repo.git", -- full remote url
                 --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
                 --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
                 -- },
         },
-
         -- Set colorscheme to use
         colorscheme = "gruvbox",
-
         -- Override highlight groups in any theme
         highlights = {
                 -- duskfox = { -- a table of overrides/changes to the default
@@ -38,7 +35,6 @@ local config = {
                         return highlights
                 end,
         },
-
         -- set vim options here (vim.<first_key>.<second_key> =  value)
         options = {
                 opt = {
@@ -60,7 +56,6 @@ local config = {
 
         -- Set dashboard header
         header = {},
-
         -- Default theme configuration
         default_theme = {
                 -- set the highlight style for diagnostic messages
@@ -91,13 +86,11 @@ local config = {
                         ["which-key"] = true,
                 },
         },
-
         -- Diagnostics configuration (for vim.diagnostics.config({...}))
         diagnostics = {
                 virtual_text = true,
                 underline = true,
         },
-
         -- Extend LSP configuration
         lsp = {
                 -- enable servers that you already have installed without mason
@@ -142,7 +135,6 @@ local config = {
                         -- }
                 },
         },
-
         -- Mapping data with "desc" stored directly by vim.keymap.set().
         --
         -- Please use this mappings table to set keyboard mapping since this is the
@@ -172,51 +164,52 @@ local config = {
                         -- ["<esc>"] = false,
                 },
         },
-
         -- Configure plugins
         plugins = {
-                init = {
-                        -- You can disable default plugins as follows:
-                        -- ["goolord/alpha-nvim"] = { disable = true },
-                        -- You can also add new plugins here as well:
-                        -- Add plugins, the packer syntax without the "use"
-                        -- { "andweeb/presence.nvim" },
-                        { "j-hui/fidget.nvim" },
-                        { "morhetz/gruvbox" },
-                        { "mbbill/undotree" },
-                        { "simrat39/rust-tools.nvim" },
-                        { "tpope/vim-fugitive" },
-                        {
-                                "williamboman/nvim-lsp-installer",
-                                config = function()
-                                        require("nvim-lsp-installer").setup {
-                                                automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-                                                ui = {
-                                                        icons = {
-                                                                server_installed = "✓",
-                                                                server_pending = "➜",
-                                                                server_uninstalled = "✗",
-                                                        },
+                -- You can disable default plugins as follows:
+                -- ["goolord/alpha-nvim"] = { disable = true },
+                -- You can also add new plugins here as well:
+                -- Add plugins, the packer syntax without the "use"
+                -- { "andweeb/presence.nvim" },
+                { "j-hui/fidget.nvim" },
+                { "morhetz/gruvbox" },
+                { "mbbill/undotree" },
+                { "simrat39/rust-tools.nvim" },
+                { "tpope/vim-fugitive" },
+                {
+                        "williamboman/nvim-lsp-installer",
+                        config = function()
+                                require("nvim-lsp-installer").setup {
+                                        automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+                                        ui = {
+                                                icons = {
+                                                        server_installed = "✓",
+                                                        server_pending = "➜",
+                                                        server_uninstalled = "✗",
                                                 },
-                                        }
-                                end,
-                                requires = { "neovim/nvim-lspconfig" },
-                        },
-                        {
-                                "kylechui/nvim-surround",
-                                tag = "*",
-                                config = function() require("nvim-surround").setup {} end,
-                        },
-                        { "Pocco81/auto-save.nvim" },
-                        { "nvim-telescope/telescope-live-grep-args.nvim" },
-                        -- We also support a key value style plugin definition similar to NvChad
-                        ["ray-x/lsp_signature.nvim"] = {
-                                event = "BufRead",
-                                config = function() require("lsp_signature").setup() end,
-                        },
+                                        },
+                                }
+                        end,
+                        requires = { "neovim/nvim-lspconfig" },
+                },
+                {
+                        "kylechui/nvim-surround",
+                        tag = "*",
+                        config = function() require("nvim-surround").setup {} end,
+                },
+                {
+                        "Pocco81/auto-save.nvim",
+                        lazy = false
+                },
+                { "nvim-telescope/telescope-live-grep-args.nvim" },
+                -- We also support a key value style plugin definition similar to NvChad
+                ["ray-x/lsp_signature.nvim"] = {
+                        event = "BufRead",
+                        config = function() require("lsp_signature").setup() end,
                 },
                 -- All other entries override the require("<key>").setup({...}) call for default plugins
                 ["neo-tree"] = {
+                        lazy = false,
                         requires = {
                                 "nvim-lua/plenary.nvim",
                                 "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
@@ -231,24 +224,27 @@ local config = {
                                 },
                         },
                 },
-                treesitter = { -- overrides `require("treesitter").setup(...)`
+                treesitter = {
+                        -- overrides `require("treesitter").setup(...)`
+                        lazy = false,
                         auto_reload = true,
                         automatic_installation = true,
                         ensure_installed = { "lua", "rust", "typescript" },
                 },
                 -- use mason-lspconfig to configure LSP installations
                 ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
+                        lasy = false,
                         ensure_installed = { "sumneko_lua", "rust_analyzer", "tsserver" },
                 },
-                -- use mason-tool-installer to configure DAP/Formatters/Linter installation
-                ["mason-tool-installer"] = { -- overrides `require("mason-tool-installer").setup(...)`
-                        ensure_installed = { "prettier", "stylua" },
-                },
-                packer = { -- overrides `require("packer").setup(...)`
-                        compile_path = vim.fn.stdpath "data" .. "/packer_compiled.lua",
+                ["WhoIsSethDaniel/mason-tool-installer.nvim"] = {
+                        after = "mason.nvim",
+                        config = function()
+                                require("mason-tool-installer").setup({
+                                        -- your config for the plugin here
+                                })
+                        end,
                 },
         },
-
         -- LuaSnip Options
         luasnip = {
                 -- Add paths for including more VS Code style snippets in luasnip
@@ -258,7 +254,6 @@ local config = {
                         javascript = { "javascriptreact" },
                 },
         },
-
         -- CMP Source Priorities
         -- modify here the priorities of default cmp sources
         -- higher value == higher priority
@@ -273,7 +268,6 @@ local config = {
                         path = 250,
                 },
         },
-
         -- Modify which-key registration (Use this with mappings table in the above.)
         ["which-key"] = {
                 -- Add bindings which show up as group name
@@ -289,21 +283,12 @@ local config = {
                         },
                 },
         },
-
         -- This function is run last and is a good place to configuring
         -- augroups/autocommands and custom filetypes also this just pure lua so
         -- anything that doesn't fit in the normal config locations above can go here
         polish = function()
                 -- Set key binding
                 -- Set autocommands
-                vim.api.nvim_create_augroup("packer_conf", { clear = true })
-                vim.api.nvim_create_autocmd("BufWritePost", {
-                        desc = "Sync packer after modifying plugins.lua",
-                        group = "packer_conf",
-                        pattern = "plugins.lua",
-                        command = "source <afile> | PackerSync",
-                })
-
                 vim.filetype.add {
                         extension = {
                                 js = "javascriptreact",

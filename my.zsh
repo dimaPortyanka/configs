@@ -63,17 +63,8 @@ function commit {
   git commit -am $message
 }
 
-function _openNvim {
-  if [[ $# -eq 0 ]] ; then
-      nvim .
 
-      return
-  fi
-
-  nvim $1
-}
-
-alias vim="_openNvim"
+alias vim="nvim"
 #
 function send {
   if [[ $# -eq 0 ]]; then

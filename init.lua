@@ -33,6 +33,10 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'jiangmiao/auto-pairs',
+  'mhinz/vim-startify',
+  'windwp/nvim-ts-autotag',
+  'mbbill/undotree',
+  'tribela/vim-transparent',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -111,7 +115,14 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  {
+    'nvim-telescope/telescope.nvim',
+    version = '*',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-live-grep-args.nvim'
+    },
+  },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -223,8 +234,8 @@ require('telescope').setup {
   defaults = {
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ['<C-u>'] = true,
+        ['<C-d>'] = true,
       },
     },
   },
@@ -233,19 +244,25 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
-vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { desc = 'Split horizonlta' })
+vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
+
+vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { desc = 'split [V]ertically' })
 vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'close' })
 vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'delete selection' })
-vim.keymap.set('n', '<leader>e', ':E<CR>', { desc = 'open current folder' })
+vim.keymap.set('n', '<leader>e', ':Explore<CR>', { desc = 'open current folder' })
+
+vim.keymap.set('n', '<leader>tv', ':vsplit<CR>:terminal<CR>i', { desc = 'open [T]erminal in [V]ertical split' })
+vim.keymap.set('n', '<leader>tt', ':tabnew<CR>:terminal<CR>i', { desc = 'open [T]erminal in [T]ab' })
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', { desc = "show [U]ndo tree" })
 
 -- See `:help telescope.builtin`
 --
-vim.keymap.set('n', '<leader>bo', require('telescope.builtin').buffers, { desc = '[B]uffers [O]ppened' })
+vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>so', require('telescope.builtin').oldfiles, { desc = '[S]earch [R]ecently opened files' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').oldfiles, { desc = '[S]earch [R]ecent files' })
 vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc = '[S]earch [J]umplist' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch [G]rep' })
+vim.keymap.set("n", "<leader>sg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostic' })
 
 vim.keymap.set('n', '<leader>/', function()
@@ -262,6 +279,10 @@ end, { desc = '[/] Fuzzily search in current buffer' })
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'java' },
+
+  autotag = {
+    enable = true
+  },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,

@@ -30,6 +30,7 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
+  'airblade/vim-rooter',
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'jiangmiao/auto-pairs',
@@ -80,10 +81,9 @@ require('lazy').setup({
     },
   },
   {
-    'morhetz/gruvbox',
+    'sainnhe/everforest',
     config = function ()
-      vim.cmd.colorscheme 'gruvbox'
-      
+      vim.cmd.colorscheme 'everforest'
     end
   },
   { -- Set lualine as statusline
@@ -118,7 +118,7 @@ require('lazy').setup({
     version = '*',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-live-grep-args.nvim'
+      'nvim-telescope/telescope-live-grep-args.nvim',
     },
   },
 
@@ -240,7 +240,11 @@ require('telescope').setup {
 }
 
 -- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+pcall(
+  require('telescope').load_extension,
+  'fzf',
+  'live_grep_args'
+)
 
 vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
 

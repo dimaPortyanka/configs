@@ -252,6 +252,7 @@ vim.keymap.set('n', '<C-h>', '<C-W>h', { desc='move left' })
 vim.keymap.set('n', '<C-j>', '<C-W>j', { desc='move down' })
 vim.keymap.set('n', '<C-k>', '<C-W>k', { desc='move up' })
 
+vim.keymap.set('n', '<leader>=', 'ggvG=', { desc='indente all file' })
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { desc = 'split [V]ertically' })
 vim.keymap.set('n', '<leader>h', ':split<CR>', { desc = 'split [H]orizontal' })
 

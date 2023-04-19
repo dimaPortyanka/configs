@@ -246,16 +246,33 @@ pcall(
   'live_grep_args'
 )
 
-vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
+
+vim.keymap.set('n', '<C-l>', '<C-W>l', { desc='move right' })
+vim.keymap.set('n', '<C-h>', '<C-W>h', { desc='move left' })
+vim.keymap.set('n', '<C-j>', '<C-W>j', { desc='move down' })
+vim.keymap.set('n', '<C-k>', '<C-W>k', { desc='move up' })
 
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { desc = 'split [V]ertically' })
-vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'close' })
-vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'delete selection' })
-vim.keymap.set('n', '<leader>e', ':Explore<CR>', { desc = 'open current folder' })
+vim.keymap.set('n', '<leader>h', ':split<CR>', { desc = 'split [H]orizontal' })
 
-vim.keymap.set('n', '<leader>tv', ':vsplit<CR>:terminal<CR>i', { desc = 'open [T]erminal in [V]ertical split' })
-vim.keymap.set('n', '<leader>tt', ':tabnew<CR>:terminal<CR>i', { desc = 'open [T]erminal in [T]ab' })
-vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', { desc = "show [U]ndo tree" })
+vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = '[Q]uit' })
+vim.keymap.set('n', '<leader>h', ':noh<CR>', { desc = 'remove [H]ighlight' })
+vim.keymap.set('n', '<leader>e', ':Explore<CR>', { desc = '[E]xplorer here' })
+
+-- begin Terminal
+vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { desc = 'Quit insert mode in terminal' })
+vim.keymap.set('t', '<leader>q', '<C-\\><C-n>:q<CR>', { desc = 'Quit insert mode in terminal' })
+
+vim.keymap.set('n', '<C-l>', '<C-\\><C-n><C-W>l', { desc='move right' })
+vim.keymap.set('n', '<C-h>', '<C-\\><C-n><C-W>h', { desc='move left' })
+vim.keymap.set('n', '<C-j>', '<C-\\><C-n><C-W>j', { desc='move down' })
+vim.keymap.set('n', '<C-k>', '<C-\\><C-n><C-W>k', { desc='move up' })
+
+vim.keymap.set('n', '<leader>tv', ':vsplit<CR><C-W>l:terminal<CR>i', { desc = '[T]erminal [V]ertical' })
+vim.keymap.set('n', '<leader>th', ':split<CR><C-W>j:terminal<CR>i', { desc = '[T]erminal [H]orizontal' })
+vim.keymap.set('n', '<leader>tt', ':tabnew<CR>:terminal<CR>i', { desc = '[T]erminal [T]ab' })
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', { desc = "toggle [U]ndotree" })
+-- end Terminal
 
 -- See `:help telescope.builtin`
 --

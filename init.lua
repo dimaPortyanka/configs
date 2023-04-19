@@ -4,6 +4,7 @@ vim.o.shell = "/bin/zsh"
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.netrw_banner = 0
+vim.wo.wrap = false
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim

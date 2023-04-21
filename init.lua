@@ -1,10 +1,23 @@
 vim.o.background = "dark"
 vim.o.shell = "/bin/zsh"
 
+vim.g.encoding = 'UTF-8'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.netrw_banner = 0
 vim.wo.wrap = false
+vim.g.rooter_patterns = {
+  '.git',
+  'Makefile',
+  '*.sln',
+  'build/env.sh',
+  'BUILD.bazel',
+}
+
+-- Set Neotree as the default file explorer
+vim.g.explorer_open_file_with = 'neotree'
+vim.g.neotree_show_hidden = 1
+
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -29,7 +42,15 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
-
+  'ryanoasis/vim-devicons',
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  },
   -- Git related plugins
   'airblade/vim-rooter',
   'tpope/vim-fugitive',
@@ -63,7 +84,11 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    dependencies = { 
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip'
+    },
   },
 
   -- Useful plugin to show you pending keybinds.
@@ -254,21 +279,21 @@ vim.keymap.set('n', '<C-j>', '<C-W>j', { desc='move down' })
 vim.keymap.set('n', '<C-k>', '<C-W>k', { desc='move up' })
 
 vim.keymap.set('n', '<leader>=', 'ggvG=', { desc='indente all file' })
-vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { desc = 'split [V]ertically' })
-vim.keymap.set('n', '<leader>h', ':split<CR>', { desc = 'split [H]orizontal' })
+vim.keymap.set('n', '<leader>v', ':vsplit<CR><C-W>l', { desc = 'split [V]ertically' })
+vim.keymap.set('n', '<leader>h', ':split<CR><C-W>j', { desc = 'split [H]orizontal' })
 
 vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = '[Q]uit' })
-vim.keymap.set('n', '<leader>h', ':noh<CR>', { desc = 'remove [H]ighlight' })
-vim.keymap.set('n', '<leader>e', ':Explore<CR>', { desc = '[E]xplorer here' })
+vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'remove Highlight' })
+vim.keymap.set('n', '<leader>e', ':NeoTreeFloatToggle<CR>', { desc = '[E]xplorer here' })
 
 -- begin Terminal
 vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { desc = 'Quit insert mode in terminal' })
 vim.keymap.set('t', '<leader>q', '<C-\\><C-n>:q<CR>', { desc = 'Quit insert mode in terminal' })
 
-vim.keymap.set('n', '<C-l>', '<C-\\><C-n><C-W>l', { desc='move right' })
-vim.keymap.set('n', '<C-h>', '<C-\\><C-n><C-W>h', { desc='move left' })
-vim.keymap.set('n', '<C-j>', '<C-\\><C-n><C-W>j', { desc='move down' })
-vim.keymap.set('n', '<C-k>', '<C-\\><C-n><C-W>k', { desc='move up' })
+vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-W>l', { desc='move right' })
+vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-W>h', { desc='move left' })
+vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-W>j', { desc='move down' })
+vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-W>k', { desc='move up' })
 
 vim.keymap.set('n', '<leader>tv', ':vsplit<CR><C-W>l:terminal<CR>i', { desc = '[T]erminal [V]ertical' })
 vim.keymap.set('n', '<leader>th', ':split<CR><C-W>j:terminal<CR>i', { desc = '[T]erminal [H]orizontal' })

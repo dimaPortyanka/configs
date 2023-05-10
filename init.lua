@@ -43,14 +43,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
   'ryanoasis/vim-devicons',
-  {
-    'nvim-neo-tree/neo-tree.nvim',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-    }
-  },
+  'ThePrimeagen/harpoon',
   -- Git related plugins
   'airblade/vim-rooter',
   'tpope/vim-fugitive',
@@ -63,7 +56,14 @@ require('lazy').setup({
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  },
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   { -- LSP Configuration & Plugins
@@ -84,7 +84,7 @@ require('lazy').setup({
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    dependencies = { 
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip'
@@ -280,14 +280,16 @@ vim.keymap.set('n', '<C-k>', '<C-W>k', { desc='move up' })
 
 vim.keymap.set('n', '<leader>=', 'ggvG=', { desc='indente all file' })
 vim.keymap.set('n', '<leader>v', ':vsplit<CR><C-W>l', { desc = 'split [V]ertically' })
-vim.keymap.set('n', '<leader>h', ':split<CR><C-W>j', { desc = 'split [H]orizontal' })
+
+vim.keymap.set('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>', { desc='[H]arpoon [A]dd' })
+vim.keymap.set('n', '<leader>hd', ':lua require("harpoon.mark").rm_file()<CR>', { desc='[H]arpoon [D]elete' })
+vim.keymap.set('n', '<leader>hm', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', { desc='[H]arpoon [M]enu' })
 
 vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = '[Q]uit' })
-vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'remove Highlight' })
+vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'remove high[L]ight', silent = true })
 vim.keymap.set('n', '<leader>e', ':NeoTreeFloatToggle<CR>', { desc = '[E]xplorer here' })
 
 -- begin Terminal
-vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', { desc = 'Quit insert mode in terminal' })
 vim.keymap.set('t', '<leader>q', '<C-\\><C-n>:q<CR>', { desc = 'Quit insert mode in terminal' })
 
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-W>l', { desc='move right' })
@@ -300,6 +302,11 @@ vim.keymap.set('n', '<leader>th', ':split<CR><C-W>j:terminal<CR>i', { desc = '[T
 vim.keymap.set('n', '<leader>tt', ':tabnew<CR>:terminal<CR>i', { desc = '[T]erminal [T]ab' })
 vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', { desc = "toggle [U]ndotree" })
 -- end Terminal
+
+vim.keymap.set('n', '<leader>bn', ':tabNext<CR>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bp', ':tabprevious<CR>', { desc = '[B]uffer [P]revious' })
+vim.keymap.set('n', '<leader>bx', ':tabclose<CR>', { desc = '[B]uffer [X]close' })
+vim.keymap.set('n', '<leader>bc', ':tabnew<CR>', { desc = '[B]uffer [C]reate' })
 
 -- See `:help telescope.builtin`
 --

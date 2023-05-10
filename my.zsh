@@ -84,4 +84,9 @@ ret () { cat /tmp/capture.out; }
 
 chmod +x ~/configs/git_hooks/pre-push 
 
+function root {
+  cd $(git rev-parse --show-toplevel)
+}
+
 alias reload="source ~/.zshrc"
+

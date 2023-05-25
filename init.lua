@@ -11,7 +11,6 @@ vim.g.rooter_patterns = {
   'Makefile',
   '*.sln',
   'build/env.sh',
-  'BUILD.bazel',
 }
 
 -- Set Neotree as the default file explorer
@@ -54,6 +53,17 @@ require('lazy').setup({
   'mbbill/undotree',
   'tribela/vim-transparent',
 
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+  },
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   {
@@ -82,6 +92,18 @@ require('lazy').setup({
     },
   },
 
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -107,9 +129,15 @@ require('lazy').setup({
     },
   },
   {
-    'sainnhe/everforest',
+    'iamcco/markdown-preview.nvim',
     config = function ()
-      vim.cmd.colorscheme 'everforest'
+      vim.fn["mkdp#util#install"]()
+    end
+  },
+  {
+    'glepnir/zephyr-nvim',
+    config = function ()
+      vim.cmd("colorscheme zephyr")
     end
   },
   { -- Set lualine as statusline
@@ -425,6 +453,7 @@ local on_attach = function(_, bufnr)
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+  nmap('ga', vim.diagnostic.open_float)
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')

@@ -52,7 +52,37 @@ require('lazy').setup({
   'windwp/nvim-ts-autotag',
   'mbbill/undotree',
   'tribela/vim-transparent',
-
+  'ray-x/lsp_signature.nvim',
+  {
+    "mfussenegger/nvim-jdtls",
+  },
+  {
+    "microsoft/java-debug",
+  },
+  {
+    "microsoft/vscode-java-test",
+  },
+  {
+    "mfussenegger/nvim-dap",
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+  },
+  {
+    "hrsh7th/cmp-nvim-lsp"
+  },
+  {
+    "hrsh7th/cmp-vsnip"
+  },
+  {
+    "hrsh7th/vim-vsnip"
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    }
+  },
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -61,6 +91,15 @@ require('lazy').setup({
         require("nvim-surround").setup({
             -- Configuration here, or leave empty to use defaults
         })
+    end
+  },
+  {
+    "onsails/lspkind.nvim"
+  },
+  {
+    'sainnhe/everforest',
+    config = function ()
+      vim.cmd "colorscheme everforest"
     end
   },
 
@@ -85,7 +124,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim', tag = "legacy", opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -132,12 +171,6 @@ require('lazy').setup({
     'iamcco/markdown-preview.nvim',
     config = function ()
       vim.fn["mkdp#util#install"]()
-    end
-  },
-  {
-    'glepnir/zephyr-nvim',
-    config = function ()
-      vim.cmd("colorscheme zephyr")
     end
   },
   { -- Set lualine as statusline
@@ -331,6 +364,8 @@ vim.keymap.set('n', '<leader>tt', ':tabnew<CR>:terminal<CR>i', { desc = '[T]ermi
 vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', { desc = "toggle [U]ndotree" })
 -- end Terminal
 
+vim.keymap.set('n', '<leader>td', ':TroubleToggle document_diagnostics<CR>', { desc = '[T]rouble [D]ocument' })
+
 vim.keymap.set('n', '<leader>bn', ':tabNext<CR>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bp', ':tabprevious<CR>', { desc = '[B]uffer [P]revious' })
 vim.keymap.set('n', '<leader>bx', ':tabclose<CR>', { desc = '[B]uffer [X]close' })
@@ -465,7 +500,7 @@ local on_attach = function(_, bufnr)
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('ga', vim.diagnostic.open_float)
+  nmap('ga', vim.diagnostic.open_float, 'Open Diagnostics')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
@@ -538,11 +573,23 @@ local luasnip = require 'luasnip'
 
 luasnip.config.setup {}
 
+local lspkind = require 'lspkind'
+
 cmp.setup {
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
+  },
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol_text',
+      maxwidth = 50,
+      ellipsis_char = '...',
+      before = function (_, vim_item)
+        return vim_item
+      end
+    })
   },
   mapping = cmp.mapping.preset.insert {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -574,6 +621,8 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'vsnip' }
   },
 }
 

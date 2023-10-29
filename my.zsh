@@ -9,6 +9,10 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix ".git" .'
 export FZF_CTRL_T_COMMAND="fd --hidden --follow --exclude \".git\" ."
 export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
 
+function fuck() {
+  thefuck $@
+}
+
 function _fzf_comprun() {
   local command=$1
   shift

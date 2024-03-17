@@ -4,6 +4,8 @@ export HISTFILESIZE=$HISTSIZE
 export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
 
+eval $(thefuck --alias)
+
 # fzf settings
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix ".git" .'
 export FZF_CTRL_T_COMMAND="fd --hidden --follow --exclude \".git\" ."
@@ -27,7 +29,8 @@ function _fzf_comprun() {
 }
 
 # ohmyzsh
-ZSH_THEME="arrow"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   nvm
@@ -45,6 +48,8 @@ source $ZSH/oh-my-zsh.sh
 
 # aliases
 alias node_docker="docker run -v $(pwd):/root -it node /bin/bash"
+
+alias vim=nvim
 
 alias test="npm run test || echo 'cant run tests'"
 alias diff="git diff"
@@ -68,7 +73,6 @@ function commit {
 }
 
 
-alias vim="nvim"
 #
 function send {
   if [[ $# -eq 0 ]]; then
@@ -93,4 +97,5 @@ function root {
 }
 
 alias reload="source ~/.zshrc"
+export HOMEBREW_NO_ENV_HINTS=true
 

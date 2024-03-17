@@ -35,6 +35,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  {
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ":TSUpdate",
+  },
   -- NOTE: First, some plugins that don't require any configuration
   'ryanoasis/vim-devicons',
   'ThePrimeagen/harpoon',
@@ -42,9 +49,18 @@ require('lazy').setup({
   'airblade/vim-rooter',
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-  'jiangmiao/auto-pairs',
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true,
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    config = function ()
+      require('nvim-ts-autotag').setup()
+    end
+  },
   'mhinz/vim-startify',
-  'windwp/nvim-ts-autotag',
   'mbbill/undotree',
   'tribela/vim-transparent',
   'ray-x/lsp_signature.nvim',
@@ -84,7 +100,6 @@ require('lazy').setup({
     event = "VeryLazy",
     config = function()
         require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
         })
     end
   },
@@ -207,14 +222,6 @@ require('lazy').setup({
     end,
   },
 
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ":TSUpdate",
-  },
-
   {
     'Pocco81/auto-save.nvim',
   }
@@ -298,6 +305,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = {"*.tsx", "*.ts", ".js", ".jsx"},
+  callback = function ()
+    vim.cmd 'EslintFixAll'
+  end
+})
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -333,7 +347,7 @@ vim.keymap.set('n', '<leader>hm', ':lua require("harpoon.ui").toggle_quick_menu(
 
 vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = '[Q]uit' })
 vim.keymap.set('n', '<leader>l', ':noh<CR>', { desc = 'remove high[L]ight', silent = true })
-vim.keymap.set('n', '<leader>e', ':NeoTreeFloatToggle<CR>', { desc = '[E]xplorer here' })
+vim.keymap.set('n', '<leader>e', ':Neotree position=float<CR>', { desc = '[E]xplorer here' })
 
 -- begin Terminal
 vim.keymap.set('t', '<leader>q', '<C-\\><C-n>:q<CR>', { desc = 'Quit insert mode in terminal' })
@@ -374,88 +388,6 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = {
-    'c',
-    'cpp',
-    'go',
-    'lua',
-    'python',
-    'rust',
-    'tsx',
-    'typescript',
-    'vimdoc',
-    'vim',
-    'java'
-  },
-
-  autotag = {
-    enable = true
-  },
-
-  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = true,
-
-  highlight = { enable = false },
-  indent = { enable = true, disable = { 'python' } },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<c-space>',
-      node_incremental = '<c-space>',
-      scope_incremental = '<c-s>',
-      node_decremental = '<M-space>',
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
-      },
-    },
-  },
-}
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -518,7 +450,8 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
+  tsserver = {
+  },
 
   lua_ls = {
     Lua = {

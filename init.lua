@@ -60,6 +60,16 @@ require('lazy').setup({
       require('nvim-ts-autotag').setup()
     end
   },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
   'mhinz/vim-startify',
   'mbbill/undotree',
   'tribela/vim-transparent',
@@ -95,15 +105,6 @@ require('lazy').setup({
     }
   },
   {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-    config = function()
-        require("nvim-surround").setup({
-        })
-    end
-  },
-  {
     "onsails/lspkind.nvim"
   },
   {
@@ -126,74 +127,74 @@ require('lazy').setup({
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   { -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    -- Automatically install LSPs to stdpath for neovim
+    { 'williamboman/mason.nvim', config = true },
+    'williamboman/mason-lspconfig.nvim',
 
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = "legacy", opts = {} },
+    -- Useful status updates for LSP
+    -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+    { 'j-hui/fidget.nvim', tag = "legacy", opts = {} },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
-    },
+    -- Additional lua configuration, makes nvim stuff amazing!
+    'folke/neodev.nvim',
   },
+},
 
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      -- configurations go here
-    },
+{
+  "utilyre/barbecue.nvim",
+  name = "barbecue",
+  version = "*",
+  dependencies = {
+    "SmiteshP/nvim-navic",
+    "nvim-tree/nvim-web-devicons", -- optional dependency
   },
-  { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip'
-    },
+  opts = {
+    -- configurations go here
+  },
+},
+{ -- Autocompletion
+'hrsh7th/nvim-cmp',
+dependencies = {
+  'hrsh7th/cmp-nvim-lsp',
+  'L3MON4D3/LuaSnip',
+  'saadparwaiz1/cmp_luasnip'
+},
   },
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
   { -- Adds git releated signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
+  'lewis6991/gitsigns.nvim',
+  opts = {
+    -- See `:help gitsigns.txt`
+    signs = {
+      add = { text = '+' },
+      change = { text = '~' },
+      delete = { text = '_' },
+      topdelete = { text = '‾' },
+      changedelete = { text = '~' },
     },
   },
-  {
-    'iamcco/markdown-preview.nvim',
-    config = function ()
-      vim.fn["mkdp#util#install"]()
-    end
+},
+{
+  'iamcco/markdown-preview.nvim',
+  config = function ()
+    vim.fn["mkdp#util#install"]()
+  end
+},
+{ -- Set lualine as statusline
+'nvim-lualine/lualine.nvim',
+-- See `:help lualine.txt`
+opts = {
+  options = {
+    icons_enabled = false,
+    theme = 'onedark',
+    component_separators = '|',
+    section_separators = '',
   },
-  { -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
+},
   },
 
   -- "gc" to comment visual regions/lines
@@ -294,6 +295,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+vim.api.nvim_set_option('clipboard', 'unnamed')
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -327,9 +330,9 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(
-  require('telescope').load_extension,
-  'fzf',
-  'live_grep_args'
+require('telescope').load_extension,
+'fzf',
+'live_grep_args'
 )
 
 
@@ -379,6 +382,7 @@ vim.keymap.set('n', '<leader>sj', require('telescope.builtin').jumplist, { desc 
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set("n", "<leader>sg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostic' })
+vim.keymap.set('n', '<leader>sv', require('telescope.builtin').lsp_document_symbols, { desc = '[S]earch [V]ariables' })
 
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.

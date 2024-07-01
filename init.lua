@@ -1,5 +1,5 @@
 vim.o.background = "dark"
-vim.o.shell = "/bin/zsh"
+vim.o.shell = "/bin/fish"
 
 vim.g.encoding = 'UTF-8'
 vim.g.mapleader = ' '
@@ -16,6 +16,9 @@ vim.g.rooter_patterns = {
 -- Set Neotree as the default file explorer
 vim.g.explorer_open_file_with = 'neotree'
 vim.g.neotree_show_hidden = 1
+
+vim.g.neovide_cursor_animation_length = 0
+vim.g.neovide_scroll_animation_length = 0
 
 
 -- Install package manager
@@ -209,18 +212,9 @@ opts = {
       'nvim-telescope/telescope-live-grep-args.nvim',
     },
   },
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
+    run = 'make'
   },
 
   {

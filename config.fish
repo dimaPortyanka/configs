@@ -43,3 +43,14 @@ end
 if status is-interactive
 
 end
+
+fish_add_path /usr/bin/ruby
+fish_add_path "$HOME/.local/share/gem/ruby/3.0.0/bin"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+fzf_configure_bindings --directory=\ct
+# 
+set -x PATH "$HOME/.rbenv/bin" $PATH
+rbenv init - | source

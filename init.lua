@@ -1,6 +1,7 @@
 vim.o.background = "dark"
 vim.o.shell = "/bin/fish"
 
+vim.g.shiftwidth = 2
 vim.g.encoding = 'UTF-8'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -88,12 +89,6 @@ require('lazy').setup({
     "microsoft/vscode-java-test",
   },
   {
-    "mfussenegger/nvim-dap",
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-  },
-  {
     "hrsh7th/cmp-nvim-lsp"
   },
   {
@@ -167,8 +162,6 @@ dependencies = {
 },
   },
 
-  -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
   { -- Adds git releated signs to the gutter, as well as utilities for managing changes
   'lewis6991/gitsigns.nvim',
   opts = {
@@ -237,6 +230,18 @@ opts = {
   --    An additional note is that if you only copied in the `init.lua`, you can just comment this line
   --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
 }, {})
+
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+        underline = true,
+        virtual_text = {
+            spacing = 5,
+            severity_limit = 'Warning',
+        },
+        update_in_insert = true,
+    }
+)
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -449,9 +454,6 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  tsserver = {
-  },
-
   lua_ls = {
     Lua = {
       runtime = { version = 'LuaJIT' },
